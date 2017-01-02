@@ -11,7 +11,6 @@ public class GameManager : MonoBehaviour {
   void Awake() {
     piecePooler = GetComponent<PiecePooler>();
     boardManager = GetComponent<BoardManager>();
-    inputManager = GetComponent<InputManager>();
 
     // test de creación de piezas
     StartCoroutine(NextPiece());
