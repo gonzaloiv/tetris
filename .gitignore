@@ -32,6 +32,4 @@ sysinfo.txt
 
 # OS
 .DS_Store
-
-# Refs
-/*ref*
+.vscode
