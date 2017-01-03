@@ -19,7 +19,7 @@ public class PiecePooler : MonoBehaviour {
   public void Awake() {
     for (int i = 0; i < GlobalConstants.InitialPooledPiecesAmount; i++) {
       // TODO: Que no se creen de manera aleatoria sino mediante algún algoritmo que haga unas pieces más regulares que otras
-      GameObject piece = Instantiate(piecesPrefabs[RandomPrefabIndex]) as GameObject;
+      piece = Instantiate(piecesPrefabs[RandomPrefabIndex]) as GameObject;
       piece.SetActive(false);
       pooledPieces.Add(piece);
     }
@@ -31,7 +31,7 @@ public class PiecePooler : MonoBehaviour {
       if (!pooledPieces[i].activeInHierarchy) 
         return pooledPieces[i];
     }  
-    GameObject piece = Instantiate(piecesPrefabs[RandomPrefabIndex]) as GameObject;
+    piece = Instantiate(piecesPrefabs[RandomPrefabIndex]) as GameObject;
     pooledPieces.Add(piece);  
     return piece;
   }
