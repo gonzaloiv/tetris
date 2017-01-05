@@ -1,12 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Piece : MonoBehaviour {
+public class ActivePiece : MonoBehaviour {
 
   // MONO BEHAVIOUR
   void Awake() {
-    Debug.Log(gameObject);
-    Debug.Log("Here!");
+    Debug.Log("Active!");
   }
 
   void OnEnable() {
@@ -41,9 +40,7 @@ public class Piece : MonoBehaviour {
   }
 
   private void Rotate() {
-    Vector3 vector3 = new Vector3();
-    vector3.x = GlobalConstants.PieceMovementsSpeed;
-    this.transform.Rotate(vector3);
+    this.transform.Rotate(0, 0, 90);
   }
 
 }

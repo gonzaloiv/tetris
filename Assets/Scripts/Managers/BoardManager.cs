@@ -9,18 +9,14 @@ public class BoardManager : MonoBehaviour {
   // VARIABLES
   private PiecePooler piecePooler;
   private GameObject activePiece;
-
-  // PROPERTIES
-  private static Color RandomColor { 
-    get { return new Color(Random.value, Random.value, Random.value, 1.0f); }
-  }
+  private GameObject board;
 
   // MONO BEHAVIOUR
   void Awake() {
-    Instantiate(boardPrefab);
-
+    board = Instantiate(boardPrefab) as GameObject;
     piecePooler = GetComponent<PiecePooler>();
-    activePiece = new GameObject();
+    activePiece = new GameObject("ActivePiece");
+    activePiece.transform.parent = gameObject.transform;
 
     // test de creación de piezas
     // TODO: dependerá de las collisions con el grupo de piezas en el tablero
@@ -30,21 +26,17 @@ public class BoardManager : MonoBehaviour {
   // PRIVATE BEHAVIOUR
   private IEnumerator NextPiece() {
     for (int i = 0; i < GlobalConstants.PieceTypeAmount; i++) {
-      yield return new WaitForSeconds(1);
-      Destroy(activePiece.GetComponent<Piece>());
+      yield return new WaitForSeconds(2);
+
+      // TODO: mejorar esto, porque genera el script de cada vez
+      Destroy(activePiece.GetComponent<ActivePiece>());
       activePiece = piecePooler.GetPiece();
-      activePiece.AddComponent<Piece>();
+      activePiece.AddComponent<ActivePiece>();
+
+  
       if (activePiece != null)
-        SetPiece(activePiece);
+        activePiece.SetActive(true);
     }
   }
 
-  private void SetPiece(GameObject activePiece) {
-    activePiece.transform.localPosition = GlobalConstants.BoardCenter;
-    foreach (Transform trans in activePiece.transform) {
-      trans.GetComponent<Renderer>().material.color = RandomColor;
-    }
-    activePiece.SetActive(true);
-  }
- 
 }
