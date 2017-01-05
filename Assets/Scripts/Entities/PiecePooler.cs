@@ -11,10 +11,10 @@ public class PiecePooler : MonoBehaviour {
 
   // MONO BEHAVIOUR
   public void Awake() {
-    pieceFactory = new PieceFactory();
-    for (int i = 0; i < GlobalConstants.InitialPooledPiecesAmount; i++) {
-      // TODO: Que no se creen de manera aleatoria sino mediante algún algoritmo que haga unas pieces más regulares que otras
-      piece = Instantiate(pieceFactory.CreatePiece(i)) as GameObject;
+    pieceFactory = GetComponent<PieceFactory>();
+    for (int i = 0; i < GlobalConstants.PieceTypeAmount; i++) {
+      // TODO: Que no se creen de manera aleatoria sino mediante algún algoritmo que haga unas piezas más regulares que otras
+      piece = pieceFactory.CreatePiece(i) as GameObject;
       piece.SetActive(false);
       pooledPieces.Add(piece);
     }
@@ -26,8 +26,10 @@ public class PiecePooler : MonoBehaviour {
       if (!pooledPieces[i].activeInHierarchy) 
         return pooledPieces[i];
     }  
-    piece = Instantiate(pieceFactory.CreatePiece()) as GameObject;
+    piece = pieceFactory.CreatePiece() as GameObject;
+    piece.SetActive(false);
     pooledPieces.Add(piece);  
+
     return piece;
   } 
 

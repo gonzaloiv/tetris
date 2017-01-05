@@ -8,7 +8,7 @@ public class GlobalConstants {
   public const int BoardHeight = 20;
 
   public static Vector3 BoardCenter {
-    get { return new Vector3(-1f, GlobalConstants.BoardHeight, 0); }
+    get { return new Vector3(BoardWidth / 2, BoardHeight - .5f, 0); }
   }
 
   // PIECES
@@ -18,12 +18,13 @@ public class GlobalConstants {
     get { return PieceTypeAmount * 3; }
   }
 
+  // STYLES
+  public static Color RandomColor { 
+    get { return new Color(Random.value, Random.value, Random.value, 1.0f); }
+  }
+
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-
-  // TESTING CONSTANTS
-  // public static Vector3 BoardCenter {
-  //   get { return new Vector3(Random.Range(-GlobalConstants.BoardWidth / 2, GlobalConstants.BoardWidth / 2 - 2), GlobalConstants.BoardHeight, 0); }
-  // }
+  public static float GravitySpeed = .2f;
 
 }

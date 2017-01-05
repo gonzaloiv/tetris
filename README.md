@@ -1,6 +1,6 @@
 # Tetris
 
-Tetris clone in Unity3D.
+A Tetris clone in Unity3D.
 
 ## Installation
 

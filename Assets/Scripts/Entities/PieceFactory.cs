@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PieceFactory {
+public class PieceFactory : MonoBehaviour {
+
+  // PREFABS
+  public GameObject piecePrefab;
+  public GameObject cubePrefab;
 
   // CONSTANTS
   int[][][] pieces = new int[][][] {
@@ -42,6 +46,9 @@ public class PieceFactory {
     }
   };
 
+  // VARIABLES
+  private GameObject cube;
+
   // PROPERTIES
   public static int RandomPieceIndex {
     get { return Random.Range(0, GlobalConstants.PieceTypeAmount); }
@@ -57,7 +64,8 @@ public class PieceFactory {
   }
 
   public GameObject CreatePiece(int index) {
-    GameObject piece = new GameObject("Piece");
+    GameObject piece = Instantiate(piecePrefab) as GameObject;
+    piece.name = "Piece" + index;
     piece = FormPiece(piece, index);
     piece = ColorPiece(piece);
 
@@ -69,14 +77,12 @@ public class PieceFactory {
     for (int i = 0; i < pieces[index].Length; i++) {
       for (int j = 0; j < pieces[index][i].Length; j++) {
         if (pieces[index][i][j] == 1) { 
-          GameObject cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+          cube = GameObject.Instantiate(cubePrefab);
           cube.transform.Translate(j, i, 0);
           cube.transform.parent = piece.transform;
         }
       }
     }
-    piece.transform.localPosition = GlobalConstants.BoardCenter;
-
     return piece;
   }
 
@@ -87,12 +93,4 @@ public class PieceFactory {
     return piece;
   }
 
-  // TODO: Meterle físicas a las piezas
-  private GameObject PowerPiece(GameObject piece) {
-    piece.AddComponent<Rigidbody>();
-
-    return piece;
-  }
-
 }
-
