@@ -4,19 +4,21 @@ using System.Collections;
 public class Board : MonoBehaviour {
 
   // VARIABLES
-  private GameObject[,] cubeGrid = new GameObject[10, 20];
-  private Transform ground;
-  private Transform colLeft;
-  private Transform colRight;
-
-  // MONO BEHAVIOUR
-  void Awake() {
-    ground = gameObject.transform.Find("Ground");
-    colLeft = gameObject.transform.Find("ColLeft");
-    colRight = gameObject.transform.Find("ColRight");
-  }
+  private Transform[,] boardGrid = new Transform[10, 20];
 
   // PUBLIC BEHAVIOUR
+  public void FillBoardWithPiece(Transform piece) {
+    foreach(Transform cube in piece) {
+      FillBoardWithCube(cube);
+    }
+  }
 
+  public void FillBoardWithCube(Transform cube) {
+    boardGrid[(int)cube.transform.position.x, (int)cube.transform.position.y] = cube;
+  }
+
+  public bool IsPositionEmpty(Vector3 position) {
+    return boardGrid[(int)position.x, (int)position.y] is Transform ? true : false;
+  }
 
 }

@@ -83,12 +83,14 @@ public class PieceFactory : MonoBehaviour {
         }
       }
     }
+    piece.transform.position = GlobalConstants.BoardCenter;
     return piece;
   }
 
   private GameObject ColorPiece(GameObject piece) {
+    Color randomColor = RandomColor;
     foreach (Transform trans in piece.transform) {
-      trans.GetComponent<Renderer>().material.color = RandomColor;
+      trans.GetComponent<Renderer>().material.color = randomColor;
     }
     return piece;
   }

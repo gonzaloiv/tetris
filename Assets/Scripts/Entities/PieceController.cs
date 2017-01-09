@@ -5,10 +5,10 @@ using System.Collections.Generic;
 public class PieceController : MonoBehaviour {
 
   // MONO BEHAVIOUR
-  void Awake() {
+  void Start() {
     StartCoroutine(FallDown());
   }
- 
+
   void OnEnable() {
     EventManager.StartListening("MoveRight", MoveRight);
     EventManager.StartListening("MoveLeft", MoveLeft);
@@ -25,40 +25,40 @@ public class PieceController : MonoBehaviour {
 
   // ACTIONS
   private void MoveLeft() {
-    transform.Translate(new Vector3(-GlobalConstants.PieceMovementsSpeed, 0, 0));
-    if(!IsValidBoardPosition())
-     transform.Translate(new Vector3(GlobalConstants.PieceMovementsSpeed, 0, 0));
+    Move(new Vector3(-GlobalConstants.PieceMovementsSpeed, 0, 0));
   }
 
   private void MoveRight() {
-    transform.Translate(new Vector3(GlobalConstants.PieceMovementsSpeed, 0, 0));
-    if(!IsValidBoardPosition())
-      transform.Translate(new Vector3(-GlobalConstants.PieceMovementsSpeed, 0, 0));
+    Move(new Vector3(GlobalConstants.PieceMovementsSpeed, 0, 0));
   }
 
   private void MoveDown() {
-    transform.Translate(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
-    if(!IsValidBoardPosition())
-      transform.Translate(new Vector3(0, GlobalConstants.PieceMovementsSpeed, 0));
+    Move(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
   }
 
   private void Rotate() {
-    transform.Rotate(0, 0, -90);
+    transform.Rotate(0, 0, -90, Space.World);
     if(!IsValidBoardPosition())
-      transform.Rotate(0, 0, 90);
+      transform.Rotate(0, 0, 90, Space.World);
   }
 
-  // PRIVATE BEHAVIOUR
-  private IEnumerator FallDown() {
+  // PUBLIC BEHAVIOUR
+  public IEnumerator FallDown() {
     while (true) {
-      MoveDown();
+      Move(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
       yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
     }
   }
 
+  // PRIVATE BEHAVIOUR
+  private void Move(Vector3 translation) {
+    transform.Translate(translation, Space.World);
+      if(!IsValidBoardPosition())
+      transform.Translate(-translation, Space.World);
+  }
+
   private bool IsValidBoardPosition() {
     foreach (Transform cube in transform) {
-      Debug.Log(cube.position);
       Vector3 position = cube.position;
       if(!InsideBoard(position))
         return false;

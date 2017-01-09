@@ -3,7 +3,7 @@ using System.Collections;
 
 public class BoardManager : MonoBehaviour {
 
-  // PREFAB
+  // PREFABS
   public GameObject boardPrefab;
 
   // VARIABLES
