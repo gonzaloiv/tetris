@@ -7,32 +7,46 @@ public class BoardManager : MonoBehaviour {
   public GameObject boardPrefab;
 
   // VARIABLES
-  private PiecePooler piecePooler;
-  private GameObject activePiece;
+  private PieceFactory pieceFactory;
   private GameObject board;
+  private GameObject activePiece;
 
   // MONO BEHAVIOUR
   void Awake() {
-    piecePooler = GetComponent<PiecePooler>();
+    pieceFactory = GetComponent<PieceFactory>();
     board = Instantiate(boardPrefab) as GameObject;
+    board.name = "Board"; 
 
-    activePiece = new GameObject("ActivePiece");
-    activePiece.transform.parent = gameObject.transform;
-
-    // test de creación de piezas
-    StartCoroutine(NextPiece());
+    SpawnPiece();
+    StartCoroutine(SimulateGravity());
   }
- 
-  // PRIVATE BEHAVIOUR
-  private IEnumerator NextPiece() {
-    for (int i = 0; i < GlobalConstants.PieceTypeAmount; i++) {
-      Destroy(activePiece.GetComponent<PieceController>());
-      Debug.Log(activePiece);
-      Debug.Log(piecePooler);
-      activePiece = piecePooler.GetRandomPiece() as GameObject;
-      activePiece.SetActive(true);
 
-      yield return new WaitForSeconds(2);
+  void OnEnable() {
+    EventManager.StartListening("SpawnPiece", SpawnPiece);
+    EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
+  }
+
+  void OnDisable() {
+    EventManager.StopListening("SpawnPiece", SpawnPiece);
+    EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
+  }
+
+  // ACTIONS
+  private void SpawnPiece() {
+    EventManager.TriggerEvent("MoveDown");
+
+    activePiece = pieceFactory.CreatePiece() as GameObject;
+  }
+
+  private void FillBoardWithPiece () {
+    board.GetComponent<Board>().FillBoardWithPiece(activePiece.transform);
+  }
+
+  // PRIVATE BEHAVIOUR
+  private IEnumerator SimulateGravity() {
+    while (true) {
+      EventManager.TriggerEvent("MoveDown");
+      yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
     }
   }
 

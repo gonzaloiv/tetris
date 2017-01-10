@@ -83,7 +83,7 @@ public class PieceFactory : MonoBehaviour {
         }
       }
     }
-    piece.transform.position = GlobalConstants.BoardCenter;
+    piece.transform.position = GlobalConstants.SpawningPosition;
     return piece;
   }
 

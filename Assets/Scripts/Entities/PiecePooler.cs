@@ -7,26 +7,22 @@ public class PiecePooler : MonoBehaviour {
   // VARIABLES
   private List<GameObject> pooledPieces = new List<GameObject>();
   private PieceFactory pieceFactory;
-  private GameObject piece;
 
   // MONO BEHAVIOUR
   void Awake() {
     pieceFactory = GetComponent<PieceFactory>();
     for (int i = 0; i < GlobalConstants.InitialPooledPiecesAmount; i++) {
       for (int j = 0; j < GlobalConstants.PieceTypeAmount; j++) {
-        // TODO: Que no se creen de manera aleatoria sino mediante algún algoritmo que haga unas piezas más regulares que otras
-        piece = pieceFactory.CreatePiece(j) as GameObject;
+        GameObject piece = pieceFactory.CreatePiece(j) as GameObject;
         piece.SetActive(false);
         pooledPieces.Add(piece);
       }
     }
-    Debug.Log(pooledPieces);
   }
 
   // PUBLIC BEHAVIOUR
   public GameObject GetRandomPiece() {
-    Debug.Log(GetRandomAvailablePiece());
-    piece = GetRandomAvailablePiece();
+    GameObject piece = GetRandomInactivePooledPiece();
     if (piece != null)
       return piece;
 
@@ -38,7 +34,7 @@ public class PiecePooler : MonoBehaviour {
   } 
 
   // PRIVATE BEHAVIOUR
-  private GameObject GetRandomAvailablePiece() {
+  private GameObject GetRandomInactivePooledPiece() {
     int randomIndex;
     List<int> pooledPiecesIndexes = new List<int>();
 
