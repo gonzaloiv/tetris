@@ -42,15 +42,14 @@ public class PieceController : MonoBehaviour {
       transform.Rotate(0, 0, 90, Space.World);
   }
 
-  // PUBLIC BEHAVIOUR
-  public IEnumerator FallDown() {
+  // PRIVATE BEHAVIOUR
+  private IEnumerator FallDown() {
     while (true) {
       Move(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
       yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
     }
   }
-
-  // PRIVATE BEHAVIOUR
+ 
   private void Move(Vector3 translation) {
     transform.Translate(translation, Space.World);
       if(!IsValidBoardPosition())

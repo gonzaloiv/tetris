@@ -27,6 +27,8 @@ public class BoardManager : MonoBehaviour {
   private IEnumerator NextPiece() {
     for (int i = 0; i < GlobalConstants.PieceTypeAmount; i++) {
       Destroy(activePiece.GetComponent<PieceController>());
+      Debug.Log(activePiece);
+      Debug.Log(piecePooler);
       activePiece = piecePooler.GetRandomPiece() as GameObject;
       activePiece.SetActive(true);
 
