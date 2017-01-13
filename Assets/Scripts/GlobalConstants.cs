@@ -8,7 +8,7 @@ public class GlobalConstants {
   public const int BoardHeight = 20;
 
   public static Vector3 SpawningPosition {
-    get { return new Vector3(BoardWidth / 2 - 1, BoardHeight - 1, 0); }
+    get { return new Vector3(BoardWidth / 2 - 2, BoardHeight - 1, 0); }
   }
 
   // PIECES
@@ -25,6 +25,6 @@ public class GlobalConstants {
 
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-  public static float GravitySpeed = .5f;
+  public static float GravitySpeed = .1f;
 
 }

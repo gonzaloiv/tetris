@@ -5,8 +5,8 @@ using System.Collections.Generic;
 public class PieceController : MonoBehaviour {
 
   // MONO BEHAVIOUR
-  void Start() {
-//    StartCoroutine(FallDown());
+  void OnStart() {
+    
   }
 
   void OnEnable() {
@@ -28,11 +28,7 @@ public class PieceController : MonoBehaviour {
   private void MoveDown() {
     Move(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
   }
-
-  private void MoveUp() {
-    Move(new Vector3(0, GlobalConstants.PieceMovementsSpeed, 0));
-  }
-
+ 
   // TODO: mejorar la rotación de las piezas
   private void Rotate() {
     Vector3 rotation = new Vector3(0, 0, -90);
@@ -51,14 +47,7 @@ public class PieceController : MonoBehaviour {
       DisableListeners();
       EventManager.TriggerEvent("FillBoardWithPiece");
       EventManager.TriggerEvent("SpawnPiece");
-    }
-  }
-
-  private IEnumerator FallDown() {
-    while (true) {
-      EventManager.TriggerEvent("MoveDown");
-      yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
-    }
+    } 
   }
 
   // TODO: refactorizar esto para que no sea un truño (al menos meterlo como global constants)
@@ -82,7 +71,7 @@ public class PieceController : MonoBehaviour {
   private bool IsEmptyPosition(Vector3 position) {  
     return Board.IsPositionEmpty(position) && position.y > 0;
   }
-
+ 
   private void DisableListeners() {
     EventManager.StopListening("MoveRight", MoveRight);
     EventManager.StopListening("MoveLeft", MoveLeft);
