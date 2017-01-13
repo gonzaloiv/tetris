@@ -23,6 +23,11 @@ public class InputManager : MonoBehaviour {
       Debug.Log("RightArrow pressed!"); 
       EventManager.TriggerEvent("MoveRight");
     }
+
+    if (Input.GetKeyDown("return")) {
+      Debug.Log("Enter pressed!"); 
+      EventManager.TriggerEvent("RestartGame");
+    }
   }
 
   // TODO: mobile controls

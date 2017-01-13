@@ -5,8 +5,11 @@ using System.Collections.Generic;
 public class PieceController : MonoBehaviour {
 
   // MONO BEHAVIOUR
-  void OnStart() {
-    
+  void Start() {
+    if (IsEmptyBoardPosition() != 0) {
+      EventManager.TriggerEvent("EndGame");
+      DisableListeners();
+    }
   }
 
   void OnEnable() {
@@ -57,9 +60,8 @@ public class PieceController : MonoBehaviour {
       position = cube.position;
       if (!IsInsideBoard(position))
         return 1;   
-      if (!IsEmptyPosition(position)) {
+      if (!IsEmptyPosition(position))
         return 2;
-      }
     }
     return 0;
   }
@@ -71,7 +73,7 @@ public class PieceController : MonoBehaviour {
   private bool IsEmptyPosition(Vector3 position) {  
     return Board.IsPositionEmpty(position) && position.y > 0;
   }
- 
+   
   private void DisableListeners() {
     EventManager.StopListening("MoveRight", MoveRight);
     EventManager.StopListening("MoveLeft", MoveLeft);

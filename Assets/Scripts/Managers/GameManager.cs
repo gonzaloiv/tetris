@@ -1,35 +1,39 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class BoardManager : MonoBehaviour {
+public class GameManager : MonoBehaviour {
 
   // PREFABS
   public GameObject boardPrefab;
+  public GameObject restartScreenPrefab;
 
   // VARIABLES
   private PieceFactory pieceFactory;
   private Board board;
   private GameObject activePiece;
+  private GameObject restartScreen;
 
   // MONO BEHAVIOUR
   void Awake() {
     pieceFactory = GetComponent<PieceFactory>();
     board = Instantiate(boardPrefab).GetComponent<Board>();
 
-    SpawnPiece();
     StartCoroutine(SimulateGravity());
+    SpawnPiece();
   }
 
   void OnEnable() {
     EventManager.StartListening("SpawnPiece", SpawnPiece);
     EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
-    EventManager.StartListening("Restart", Restart);
+    EventManager.StartListening("EndGame", EndGame);
+    EventManager.StartListening("RestartGame", RestartGame);
   }
 
   void OnDisable() {
     EventManager.StopListening("SpawnPiece", SpawnPiece);
-    EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
-    EventManager.StartListening("Restart", Restart);
+    EventManager.StopListening("FillBoardWithPiece", FillBoardWithPiece);
+    EventManager.StopListening("EndGame", EndGame);
+    EventManager.StopListening("RestartGame", RestartGame);
   }
 
   // ACTIONS
@@ -39,12 +43,17 @@ public class BoardManager : MonoBehaviour {
 
   private void FillBoardWithPiece () {
     board.FillBoardWithPiece(activePiece.transform);
-    board.UpdateBoard();
   }
 
-  private void Restart() {
-    // Aquí se modificaría también lo relacionado con la partida (puntos, GUI...)
+  private void EndGame() {
+    restartScreen = Instantiate(restartScreenPrefab) as GameObject;
+  }
+
+  private void RestartGame() {
+    Destroy(restartScreen);
+    Destroy(activePiece);
     board.ResetGrid();
+    SpawnPiece();
   }
 
   // PRIVATE BEHAVIOUR
