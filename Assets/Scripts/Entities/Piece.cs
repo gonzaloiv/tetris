@@ -2,13 +2,13 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PieceController : MonoBehaviour {
+public class Piece : MonoBehaviour {
 
   // MONO BEHAVIOUR
   void Start() {
     if (IsEmptyBoardPosition() != 0) {
       EventManager.TriggerEvent("EndGame");
-      DisableListeners();
+      Destroy(gameObject);
     }
   }
 
