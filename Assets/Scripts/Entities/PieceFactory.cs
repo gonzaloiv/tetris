@@ -11,30 +11,30 @@ public class PieceFactory : MonoBehaviour {
   int[][][] pieces = new int[][][] {
     // Piece I
     new int[][] {
-      new int[] {1, 1, 1, 1}, 
-      new int[] {0, 0, 0, 0}
+      new int[] {0, 0, 0, 0}, 
+      new int[] {1, 1, 1, 1}
     },
     // Piece O
     new int[][] {
       new int[] {1, 1, 0, 0}, 
       new int[] {1, 1, 0, 0}
     },
-    // Piece L
+    // Piece J
     new int[][] {
       new int[] {1, 1, 1, 0}, 
       new int[] {1, 0, 0, 0}
     },
-    // Piece J
+    // Piece L
     new int[][] {
       new int[] {1, 1, 1, 0}, 
       new int[] {0, 0, 1, 0}
     },
-    // Piece Z
+    // Piece S
     new int[][] {
       new int[] {0, 1, 1, 0}, 
       new int[] {1, 1, 0, 0}
     },
-    // Piece S
+    // Piece Z
     new int[][] {
       new int[] {1, 1, 0, 0}, 
       new int[] {0, 1, 1, 0}

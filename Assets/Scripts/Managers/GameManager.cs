@@ -50,8 +50,8 @@ public class GameManager : MonoBehaviour {
   }
 
   private void RestartGame() {
+    DestroyAllPieces();    
     Destroy(restartScreen);
-    Destroy(activePiece);
     board.ResetGrid();
     SpawnPiece();
   }
@@ -63,5 +63,15 @@ public class GameManager : MonoBehaviour {
       yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
     }
   }
+
+  private void DestroyAllPieces() {
+    GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
+    foreach (GameObject gameObject in allObjects) {
+      if(gameObject.activeInHierarchy && gameObject.name.Contains("Piece"))
+        Destroy(gameObject);
+    }
+  }
+
+  
 
 }
