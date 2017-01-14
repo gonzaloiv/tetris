@@ -6,24 +6,23 @@ public class Board : MonoBehaviour {
   // VARIABLES
   private static Transform[,] boardGrid = new Transform[10, 20];
 
-
   // PUBLIC BEHAVIOUR
   public static bool IsPositionEmpty(Vector3 position) {
     return boardGrid[(int) position.x, (int) position.y] == null ? true : false;
   }
 
-  public void FillBoardWithPiece(Transform piece) {
+  public static void FillBoardWithPiece(Transform piece) {
     foreach (Transform cube in piece) {
       FillBoardWithCube(cube);
     }       
     UpdateGrid(); 
   }
 
-  public void FillBoardWithCube(Transform cube) {
+  public static void FillBoardWithCube(Transform cube) {
     boardGrid[(int) cube.position.x, (int) cube.position.y] = cube;
   }
 
-  public void UpdateGrid() {
+  public static void UpdateGrid() {
     for (int row = 0; row < GlobalConstants.BoardHeight; row++) {
       if (IsRowFull(row)) {
         ResetRow(row);
@@ -33,14 +32,14 @@ public class Board : MonoBehaviour {
     }   
   }
 
-  public void ResetGrid() { 
+  public static void ResetGrid() { 
     for (int row = 0; row < GlobalConstants.BoardHeight; row++) { 
       ResetRow(row); 
     }
   }
  
   // PRIVATE BEHAVIOUR
-  private bool IsRowFull(int row) {
+  private static bool IsRowFull(int row) {
     for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
       if (boardGrid[col, row] == null)
         return false;
@@ -48,7 +47,7 @@ public class Board : MonoBehaviour {
     return true;
   }
 
-  private void ResetRow(int row) {
+  private static void ResetRow(int row) {
     for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
       if (boardGrid[col, row] != null) {
         Destroy(boardGrid[col, row].gameObject);
@@ -57,7 +56,7 @@ public class Board : MonoBehaviour {
     }
   }
 
-  private void MoveHigherCubesDown(int fullRow) {
+  private static void MoveHigherCubesDown(int fullRow) {
     for (int row = fullRow + 1; row < GlobalConstants.BoardHeight; row++) {
       for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
         if (boardGrid[col, row] != null) {

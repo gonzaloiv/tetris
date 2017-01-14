@@ -14,9 +14,7 @@ public class GlobalConstants {
   // PIECES
   public static int PieceTypeAmount = 7;
 
-  public static int InitialPooledPiecesAmount {
-    get { return PieceTypeAmount * 3; }
-  }
+  public static int InitialPooledPiecesAmount = 3;
 
   // STYLES
   public static Color RandomColor { 
@@ -25,6 +23,13 @@ public class GlobalConstants {
 
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-  public static float GravitySpeed = .01f;
+  public static float GravitySpeed = .3f;
 
+}
+
+// POSITIONS
+public enum PositionStates {
+  Empty,
+  Out,
+  Full
 }

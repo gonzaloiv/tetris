@@ -7,33 +7,45 @@ public class PiecePooler : MonoBehaviour {
   // VARIABLES
   private List<GameObject> pooledPieces = new List<GameObject>();
   private PieceFactory pieceFactory;
+  private GameObject piecePool;
 
   // MONO BEHAVIOUR
   void Awake() {
+    piecePool = new GameObject("PiecePool");
     pieceFactory = GetComponent<PieceFactory>();
+    InitializePool();
+  }
+
+  void OnEnable() {
+    EventManager.StartListening("SpawnPiece", SpawnPiece);
+  }
+
+  void OnDisable() {
+    EventManager.StopListening("SpawnPiece", SpawnPiece);
+  }
+
+  // ACTIONS
+  void SpawnPiece() {
+    GameObject piece = GetRandomInactivePooledPiece();
+    if (piece == null) {
+      piece = pieceFactory.CreatePiece() as GameObject;
+      piece.transform.SetParent(piecePool.transform);
+      pooledPieces.Add(piece);
+    }
+    piece.SetActive(true);
+  }
+
+  // PRIVATE BEHAVIOUR
+  private void InitializePool() {
     for (int i = 0; i < GlobalConstants.InitialPooledPiecesAmount; i++) {
       for (int j = 0; j < GlobalConstants.PieceTypeAmount; j++) {
         GameObject piece = pieceFactory.CreatePiece(j) as GameObject;
-        piece.SetActive(false);
+        piece.transform.SetParent(piecePool.transform);
         pooledPieces.Add(piece);
       }
     }
   }
 
-  // PUBLIC BEHAVIOUR
-  public GameObject GetRandomPiece() {
-    GameObject piece = GetRandomInactivePooledPiece();
-    if (piece != null)
-      return piece;
-
-    piece = pieceFactory.CreatePiece() as GameObject;
-    piece.SetActive(false);
-    pooledPieces.Add(piece);  
-
-    return piece;
-  } 
-
-  // PRIVATE BEHAVIOUR
   private GameObject GetRandomInactivePooledPiece() {
     int randomIndex;
     List<int> pooledPiecesIndexes = new List<int>();

@@ -66,6 +66,7 @@ public class PieceFactory : MonoBehaviour {
   public GameObject CreatePiece(int index) {
     GameObject piece = Instantiate(piecePrefab) as GameObject;
     piece.name = "Piece" + index;
+    piece.SetActive(false);
     piece = FormPiece(piece, index);
     piece = ColorPiece(piece);
 

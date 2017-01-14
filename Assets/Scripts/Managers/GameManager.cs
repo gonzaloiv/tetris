@@ -9,66 +9,53 @@ public class GameManager : MonoBehaviour {
 
   // VARIABLES
   private PieceFactory pieceFactory;
-  private Board board;
-  private GameObject activePiece;
   private GameObject restartScreen;
 
   // MONO BEHAVIOUR
   void Awake() {
-    pieceFactory = GetComponent<PieceFactory>();
-    board = Instantiate(boardPrefab).GetComponent<Board>();
-
+    Instantiate(boardPrefab);
+    EventManager.TriggerEvent("SpawnPiece");
     StartCoroutine(SimulateGravity());
-    SpawnPiece();
   }
 
   void OnEnable() {
-    EventManager.StartListening("SpawnPiece", SpawnPiece);
-    EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
     EventManager.StartListening("EndGame", EndGame);
     EventManager.StartListening("RestartGame", RestartGame);
   }
 
   void OnDisable() {
-    EventManager.StopListening("SpawnPiece", SpawnPiece);
-    EventManager.StopListening("FillBoardWithPiece", FillBoardWithPiece);
     EventManager.StopListening("EndGame", EndGame);
     EventManager.StopListening("RestartGame", RestartGame);
   }
 
   // ACTIONS
-  private void SpawnPiece() {
-    activePiece = pieceFactory.CreatePiece() as GameObject;
-  }
-
-  private void FillBoardWithPiece () {
-    board.FillBoardWithPiece(activePiece.transform);
-  }
-
   private void EndGame() {
+    StopCoroutine(SimulateGravity());
     restartScreen = Instantiate(restartScreenPrefab) as GameObject;
   }
 
   private void RestartGame() {
-    DestroyAllPieces();    
+    DestroyGamePieces();    
     Destroy(restartScreen);
-    board.ResetGrid();
-    SpawnPiece();
+    // TODO: implementar el el tablero en eventos
+    Board.ResetGrid();
+    EventManager.TriggerEvent("SpawnPiece");
   }
 
   // PRIVATE BEHAVIOUR
-  private IEnumerator SimulateGravity() {
-    while (true) {
-      EventManager.TriggerEvent("MoveDown");
-      yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
-    }
-  }
 
-  private void DestroyAllPieces() {
+  private void DestroyGamePieces() {
     GameObject[] allObjects = UnityEngine.Object.FindObjectsOfType<GameObject>();
     foreach (GameObject gameObject in allObjects) {
       if(gameObject.activeInHierarchy && gameObject.name.Contains("Piece"))
         Destroy(gameObject);
+    }
+  }
+
+  private IEnumerator SimulateGravity() {
+    while (true) {
+      EventManager.TriggerEvent("MoveDown");
+      yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
     }
   }
 
