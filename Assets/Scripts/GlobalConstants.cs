@@ -24,10 +24,10 @@ public class GlobalConstants {
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
   public static float GravitySpeed = .3f;
+  public static int PieceRotationAngle = 90;
 
 }
 
-// POSITIONS
 public enum PositionStates {
   Empty,
   Out,

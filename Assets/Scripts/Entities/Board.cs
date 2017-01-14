@@ -10,19 +10,20 @@ public class Board : MonoBehaviour {
   public static bool IsPositionEmpty(Vector3 position) {
     return boardGrid[(int) position.x, (int) position.y] == null ? true : false;
   }
-
-  public static void FillBoardWithPiece(Transform piece) {
+   
+  public void FillBoardWithPiece(Transform piece) {
     foreach (Transform cube in piece) {
       FillBoardWithCube(cube);
     }       
     UpdateGrid(); 
   }
 
-  public static void FillBoardWithCube(Transform cube) {
-    boardGrid[(int) cube.position.x, (int) cube.position.y] = cube;
+  public void FillBoardWithCube(Transform cube) {
+    cube.rotation = Quaternion.identity;
+    boardGrid[(int)cube.position.x, (int)cube.position.y] = cube;
   }
 
-  public static void UpdateGrid() {
+  public void UpdateGrid() {
     for (int row = 0; row < GlobalConstants.BoardHeight; row++) {
       if (IsRowFull(row)) {
         ResetRow(row);
@@ -32,22 +33,23 @@ public class Board : MonoBehaviour {
     }   
   }
 
-  public static void ResetGrid() { 
+  public void ResetGrid() { 
     for (int row = 0; row < GlobalConstants.BoardHeight; row++) { 
       ResetRow(row); 
     }
   }
  
   // PRIVATE BEHAVIOUR
-  private static bool IsRowFull(int row) {
+  private bool IsRowFull(int row) {
     for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
-      if (boardGrid[col, row] == null)
+      if (boardGrid[col, row] == null) {
         return false;
+      }
     }
     return true;
   }
 
-  private static void ResetRow(int row) {
+  private void ResetRow(int row) {
     for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
       if (boardGrid[col, row] != null) {
         Destroy(boardGrid[col, row].gameObject);
@@ -56,7 +58,7 @@ public class Board : MonoBehaviour {
     }
   }
 
-  private static void MoveHigherCubesDown(int fullRow) {
+  private void MoveHigherCubesDown(int fullRow) {
     for (int row = fullRow + 1; row < GlobalConstants.BoardHeight; row++) {
       for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
         if (boardGrid[col, row] != null) {

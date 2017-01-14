@@ -3,8 +3,8 @@ using System.Collections;
 
 public class InputManager : MonoBehaviour {
 
-  // EVENTS
   void Update() {
+    // DESKTOP CONTROLLER
     if (Input.GetKeyDown("space")) {
       Debug.Log("Space pressed!"); 
       EventManager.TriggerEvent("Rotate");
@@ -29,7 +29,5 @@ public class InputManager : MonoBehaviour {
       EventManager.TriggerEvent("RestartGame");
     }
   }
-
-  // TODO: mobile controls
 
 }

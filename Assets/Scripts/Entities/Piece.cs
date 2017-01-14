@@ -6,7 +6,7 @@ public class Piece : MonoBehaviour {
 
   // MONO BEHAVIOUR
   void Start() {
-    if (IsEmptyBoardPosition() != PositionStates.Empty) {
+    if (IsEmptyPiecePosition() != PositionStates.Empty) {
       EventManager.TriggerEvent("EndGame");
       Destroy(gameObject);
     }
@@ -41,26 +41,33 @@ public class Piece : MonoBehaviour {
   }
  
   private void Rotate() {
-    Vector3 rotation = new Vector3(0, 0, -90);
-    transform.Rotate(rotation);
-    if(IsEmptyBoardPosition() != 0)
-      transform.Rotate(-rotation);
+    RotateCubes(-GlobalConstants.PieceRotationAngle);
+    if (IsEmptyPiecePosition() == PositionStates.Out)
+      RotateCubes(GlobalConstants.PieceRotationAngle);
+    if (IsEmptyPiecePosition() == PositionStates.Full) {
+      RotateCubes(GlobalConstants.PieceRotationAngle);
+      DisablePiece(); 
+    }
   }
    
   // PRIVATE BEHAVIOUR
   private void Move(Vector3 translation) {
     transform.Translate(translation, Space.World);
-    if (IsEmptyBoardPosition() == PositionStates.Out)
+    if (IsEmptyPiecePosition() == PositionStates.Out)
       transform.Translate(-translation, Space.World);
-    if (IsEmptyBoardPosition() == PositionStates.Full) {
+    if (IsEmptyPiecePosition() == PositionStates.Full) {
       transform.Translate(-translation, Space.World);
-      DisableListeners();
-      Board.FillBoardWithPiece(gameObject.transform);
-      EventManager.TriggerEvent("SpawnPiece");
+      DisablePiece();
     } 
   }
 
-  private PositionStates IsEmptyBoardPosition() {
+  private void RotateCubes(int angle) {
+    foreach (Transform cube in transform) {
+      cube.RotateAround(transform.position, Vector3.forward, angle);  
+    }
+  }
+
+  private PositionStates IsEmptyPiecePosition() {
     Vector3 position;
     foreach (Transform cube in transform) {
       position = cube.position;
@@ -78,6 +85,12 @@ public class Piece : MonoBehaviour {
 
   private bool IsEmptyPosition(Vector3 position) {  
     return Board.IsPositionEmpty(position) && position.y > 0;
+  }
+
+  private void DisablePiece() {
+    DisableListeners();
+    EventManager.TriggerEvent("FillBoardWithPiece");
+    EventManager.TriggerEvent("SpawnPiece");
   }
    
 }

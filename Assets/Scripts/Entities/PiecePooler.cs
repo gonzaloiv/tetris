@@ -16,16 +16,8 @@ public class PiecePooler : MonoBehaviour {
     InitializePool();
   }
 
-  void OnEnable() {
-    EventManager.StartListening("SpawnPiece", SpawnPiece);
-  }
-
-  void OnDisable() {
-    EventManager.StopListening("SpawnPiece", SpawnPiece);
-  }
-
-  // ACTIONS
-  void SpawnPiece() {
+  // PUBLIC BEHAVIOUR
+  public GameObject GetPiece() {
     GameObject piece = GetRandomInactivePooledPiece();
     if (piece == null) {
       piece = pieceFactory.CreatePiece() as GameObject;
@@ -33,6 +25,8 @@ public class PiecePooler : MonoBehaviour {
       pooledPieces.Add(piece);
     }
     piece.SetActive(true);
+
+    return piece;
   }
 
   // PRIVATE BEHAVIOUR

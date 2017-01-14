@@ -10,52 +10,37 @@ public class PieceFactory : MonoBehaviour {
   // CONSTANTS
   int[][][] pieces = new int[][][] {
     // Piece I
-    new int[][] {
-      new int[] {0, 0, 0, 0}, 
-      new int[] {1, 1, 1, 1}
-    },
+    new int[][] { new int[] {0, 0, 0, 0}, new int[] {1, 1, 1, 1} },
     // Piece O
-    new int[][] {
-      new int[] {1, 1, 0, 0}, 
-      new int[] {1, 1, 0, 0}
-    },
+    new int[][] { new int[] {1, 1, 0, 0}, new int[] {1, 1, 0, 0} },
     // Piece J
-    new int[][] {
-      new int[] {1, 1, 1, 0}, 
-      new int[] {1, 0, 0, 0}
-    },
+    new int[][] { new int[] {1, 1, 1, 0}, new int[] {1, 0, 0, 0} },
     // Piece L
-    new int[][] {
-      new int[] {1, 1, 1, 0}, 
-      new int[] {0, 0, 1, 0}
-    },
+    new int[][] { new int[] {1, 1, 1, 0}, new int[] {0, 0, 1, 0} },
     // Piece S
-    new int[][] {
-      new int[] {0, 1, 1, 0}, 
-      new int[] {1, 1, 0, 0}
-    },
+    new int[][] { new int[] {0, 1, 1, 0}, new int[] {1, 1, 0, 0} },
     // Piece Z
-    new int[][] {
-      new int[] {1, 1, 0, 0}, 
-      new int[] {0, 1, 1, 0}
-    },
+    new int[][] { new int[] {1, 1, 0, 0}, new int[] {0, 1, 1, 0} },
     // Piece T
-    new int[][] {
-      new int[] {1, 1, 1, 0}, 
-      new int[] {0, 1, 0, 0}
-    }
+    new int[][] { new int[] {1, 1, 1, 0}, new int[] {0, 1, 0, 0} }
   };
 
   // VARIABLES
+  private GameObject piecePool;
   private GameObject cube;
 
   // PROPERTIES
-  public static int RandomPieceIndex {
+  private static int RandomPieceIndex {
     get { return Random.Range(0, GlobalConstants.PieceTypeAmount); }
   }
 
   private static Color RandomColor { 
     get { return new Color(Random.value, Random.value, Random.value, 1.0f); }
+  }
+
+  // MONO BEHAVIOUR
+  void Awake() {
+    piecePool = new GameObject("PiecePool");
   }
 
   // PUBLIC BEHAVIOUR
@@ -66,7 +51,7 @@ public class PieceFactory : MonoBehaviour {
   public GameObject CreatePiece(int index) {
     GameObject piece = Instantiate(piecePrefab) as GameObject;
     piece.name = "Piece" + index;
-    piece.SetActive(false);
+    piece.transform.SetParent(piecePool.transform);
     piece = FormPiece(piece, index);
     piece = ColorPiece(piece);
 
