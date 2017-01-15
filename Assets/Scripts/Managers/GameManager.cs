@@ -4,8 +4,10 @@ using System.Collections;
 public class GameManager : MonoBehaviour {
 
   // PREFABS
-  public GameObject boardPrefab;
-  public GameObject restartScreenPrefab;
+  [SerializeField]
+  private GameObject boardPrefab;
+  [SerializeField]
+  private GameObject restartScreenPrefab;
 
   // VARIABLES
   private Board board;

@@ -4,8 +4,10 @@ using System.Collections;
 public class PieceFactory : MonoBehaviour {
 
   // PREFABS
-  public GameObject piecePrefab;
-  public GameObject cubePrefab;
+  [SerializeField]
+  private GameObject piecePrefab;
+  [SerializeField]
+  private GameObject cubePrefab;
 
   // CONSTANTS
   int[][][] pieces = new int[][][] {

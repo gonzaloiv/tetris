@@ -1,31 +1,21 @@
-# Tetris
+     _____     _       _
+    |_   _|___| |_ ___|_|___
+      | | | -_|  _|  _| |_ -|
+      |_| |___|_| |_| |_|___|
 
-A Tetris clone in Unity3D.
-
-## Installation
-
-TODO: Describe the installation process
+A Tetris clone using Unity3D.
 
 ## Usage
 
-TODO: Write usage instructions
+Drag the game prefab into the Unity scene and play.
 
-## Contributing
+## To do
 
-1. Fork it!
-2. Create your feature branch: `git checkout -b my-new-feature`
-3. Commit your changes: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-feature`
-5. Submit a pull request :D
-
-## History
-
-TODO: Write history
-
-## Credits
-
-TODO: Write credits
+* HUD.
+* Opening and closing scenes.
+* Mobile controls.
+* Multiplayer.
 
 ## License
 
-TODO: Write license
+[MIT](https://www.google.com) License.
