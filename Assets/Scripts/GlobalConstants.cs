@@ -23,7 +23,7 @@ public class GlobalConstants {
 
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-  public static float GravitySpeed = .3f;
+  public static float GravitySpeed = .1f;
   public static int PieceRotationAngle = 90;
 
 }

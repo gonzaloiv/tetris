@@ -4,10 +4,8 @@ using System.Collections;
 public class PieceFactory : MonoBehaviour {
 
   // PREFABS
-  [SerializeField]
-  private GameObject piecePrefab;
-  [SerializeField]
-  private GameObject cubePrefab;
+  [SerializeField] private GameObject piecePrefab;
+  [SerializeField] private GameObject cubePrefab;
 
   // CONSTANTS
   int[][][] pieces = new int[][][] {
@@ -42,7 +40,7 @@ public class PieceFactory : MonoBehaviour {
 
   // MONO BEHAVIOUR
   void Awake() {
-    piecePool = new GameObject("PiecePool");
+    piecePool = new GameObject("GamePieces");
   }
 
   // PUBLIC BEHAVIOUR
