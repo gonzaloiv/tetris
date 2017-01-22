@@ -11,13 +11,16 @@ public class EndGameState : State {
 
   // GAME STATE BEHAVIOUR
   public override void Enter() {
-    restartScreen = Instantiate(restartScreenPrefab, transform) as GameObject;
+    if (!restartScreen)
+      restartScreen = Instantiate(restartScreenPrefab, transform) as GameObject;
+
+    restartScreen.SetActive(true);
   }
 
   public override void Exit() {
-   base.Exit(); 
+    base.Exit(); 
 
-   Destroy(restartScreen);
+    restartScreen.SetActive(false);
   }
 
 }

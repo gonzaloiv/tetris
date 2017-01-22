@@ -7,62 +7,52 @@ public class PlayGameState : State {
   [SerializeField] private GameObject boardPrefab;
 
   // VARIABLES
-  private Board board;
   private PieceFactory pieceFactory;
-  private GameObject activePiece;
 
   // MONO BEHAVIOUR
   void Awake() {
-    board = Instantiate(boardPrefab, transform).GetComponent<Board>();
+    Instantiate(boardPrefab, transform).GetComponent<BoardController>();
     pieceFactory = GetComponent<PieceFactory>();
   }
 
-  public override void Enter()  {
+  public override void Enter() {
     base.Enter();
    
-    SpawnPiece();
+    pieceFactory.CreatePiece();
     StartCoroutine(SimulateGravity());
   }
 
   public override void Exit() {
     base.Exit();
-
-    DestroyGamePieces();    
-    board.ResetGrid();
+   
+    DisableGamePieces();
   }
-
+ 
   protected override void AddListeners() {
-    EventManager.StartListening<SpawnPiece>(SpawnPiece);
-    EventManager.StartListening<FillBoardWithPiece>(FillBoardWithPiece);
+    EventManager.StartListening<PieceHitEvent>(NextPiece);
   }
 
   protected override void RemoveListeners() {
-    EventManager.StopListening<SpawnPiece>(SpawnPiece);
-    EventManager.StopListening<FillBoardWithPiece>(FillBoardWithPiece);
+    EventManager.StopListening<PieceHitEvent>(NextPiece);
   }
 
   // ACTIONS
-  void SpawnPiece() {
-    activePiece = pieceFactory.CreatePiece(); 
+  void NextPiece(PieceHitEvent pieceHitEvent) {     
+    pieceFactory.CreatePiece();
   }
-  
-  void FillBoardWithPiece () {
-    board.FillBoardWithPiece(activePiece.transform);
-  }
-
+ 
   // PRIVATE
   private IEnumerator SimulateGravity() {
     while (true) {
-      EventManager.TriggerEvent(new MoveDown());
+      EventManager.TriggerEvent(new MoveDownEvent());
       yield return new WaitForSeconds(Config.GravitySpeed);
     }
   }
 
-  private void DestroyGamePieces() {
-    Transform pieces = GameObject.Find("GamePieces").transform;
-    foreach(Transform piece in pieces) {
-      Destroy(piece);
-    }
+  private void DisableGamePieces() {
+    GameObject pieces = GameObject.Find("GamePieces");
+      foreach(GameObject piece in pieces.transform)
+        piece.SetActive(false);
   }
 
 }

@@ -1,15 +1,20 @@
-﻿using UnityEngine.Events;
+﻿using UnityEngine;
+using UnityEngine.Events;
 
 // GAME EVENTS
-public class RestartGame : UnityEvent {}
-public class EndGame : UnityEvent {}
+public class RestartGameEvent : UnityEvent {}
+public class EndGameEvent : UnityEvent {}
 
 // GAME MECHANICS EVENTS
-public class FillBoardWithPiece : UnityEvent {}
-public class SpawnPiece : UnityEvent {}
+public class PieceHitEvent : UnityEvent {
+  public GameObject piece;
+  public PieceHitEvent(GameObject piece) {
+    this.piece = piece;
+  }
+}
 
 // PLAYER INPUT EVENTS
-public class MoveRight : UnityEvent {}
-public class MoveLeft : UnityEvent {}
-public class MoveDown : UnityEvent {}
-public class Rotate : UnityEvent {}
+public class MoveRightEvent : UnityEvent {}
+public class MoveLeftEvent : UnityEvent {}
+public class MoveDownEvent : UnityEvent {}
+public class RotateEvent : UnityEvent {}

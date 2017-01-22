@@ -13,7 +13,6 @@ public class Config {
 
   // PIECES
   public static int PieceTypeAmount = 7;
-
   public static int InitialPooledPiecesAmount = 3;
 
   // STYLES
@@ -23,7 +22,7 @@ public class Config {
 
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-  public static float GravitySpeed = .1f;
+  public static float GravitySpeed = .01f;
   public static int PieceRotationAngle = 90;
 
 }

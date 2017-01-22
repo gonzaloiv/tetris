@@ -9,13 +9,22 @@ public class Game : StateMachine {
   }
 
   void OnEnable() {
-    EventManager.StartListening<EndGame>(ChangeState<EndGameState>);
-    EventManager.StartListening<RestartGame>(ChangeState<PlayGameState>);
+    EventManager.StartListening<EndGameEvent>(OnEndGameEvent);
+    EventManager.StartListening<RestartGameEvent>(OnRestartGameEvent);
   }
 
   void OnDisable() {
-    EventManager.StopListening<EndGame>(ChangeState<EndGameState>);
-    EventManager.StopListening<RestartGame>(ChangeState<PlayGameState>);
+    EventManager.StopListening<EndGameEvent>(OnEndGameEvent);
+    EventManager.StopListening<RestartGameEvent>(OnRestartGameEvent);
+  }
+
+  // ACTIONS
+  private void OnEndGameEvent(EndGameEvent endGameEvent) {
+    ChangeState<EndGameState>();
+  }
+
+  private void OnRestartGameEvent(RestartGameEvent restartGameEvent) {
+    ChangeState<PlayGameState>();
   }
 
 }

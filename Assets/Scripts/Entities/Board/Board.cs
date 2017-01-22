@@ -1,44 +1,48 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 
-public class Board : MonoBehaviour {
+public class Board {
 
   // VARIABLES
-  private static Transform[,] boardGrid = new Transform[10, 20];
+  private static Transform[,] boardGrid;
+
+  // CONSTRUCTORS
+  public Board(int boardWidth, int boardHeight) {
+    boardGrid = new Transform[boardWidth, boardHeight];
+  }
 
   // PUBLIC BEHAVIOUR
   public static bool IsPositionEmpty(Vector3 position) {
     return boardGrid[(int) position.x, (int) position.y] == null ? true : false;
   }
-   
-  public void FillBoardWithPiece(Transform piece) {
-    foreach (Transform cube in piece) {
-      FillBoardWithCube(cube);
-    }       
-    UpdateGrid(); 
+  
+  public void AddPiece(GameObject piece) {
+    foreach (Transform cube in piece.transform)
+      AddCube(cube);
+    UpdateGrid();
   }
 
-  public void FillBoardWithCube(Transform cube) {
+  private void AddCube(Transform cube) {
     cube.rotation = Quaternion.identity;
     boardGrid[(int)cube.position.x, (int)cube.position.y] = cube;
   }
 
-  public void UpdateGrid() {
-    for (int row = 0; row < Config.BoardHeight; row++) {
+  private void UpdateGrid(int initialRow = 0) {
+    for (int row = initialRow; row < Config.BoardHeight; row++) {
       if (IsRowFull(row)) {
         ResetRow(row);
         MoveHigherCubesDown(row);
-        UpdateGrid();
+        UpdateGrid(row++);
       }
     }   
   }
 
-  public void ResetGrid() { 
-    for (int row = 0; row < Config.BoardHeight; row++) { 
+  public void Reset() {
+    for (int row = 0; row < Config.BoardHeight; row++)
       ResetRow(row); 
-    }
   }
- 
+
   // PRIVATE BEHAVIOUR
   private bool IsRowFull(int row) {
     for (int col = 0; col < Config.BoardWidth; col++) {
@@ -52,7 +56,7 @@ public class Board : MonoBehaviour {
   private void ResetRow(int row) {
     for (int col = 0; col < Config.BoardWidth; col++) {
       if (boardGrid[col, row] != null) {
-        Destroy(boardGrid[col, row].gameObject);
+        boardGrid[col, row].gameObject.SetActive(false);
         boardGrid[col, row] = null;
       }
     }
@@ -69,5 +73,5 @@ public class Board : MonoBehaviour {
       }
     }
   }
-
+	
 }

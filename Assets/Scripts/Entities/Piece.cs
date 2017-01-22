@@ -7,40 +7,40 @@ public class Piece : MonoBehaviour {
   // MONO BEHAVIOUR
   void Start() {
     if (IsEmptyPiecePosition() != PositionStates.Empty) {
-      EventManager.TriggerEvent(new EndGame());
-      Destroy(gameObject);
+      EventManager.TriggerEvent(new EndGameEvent());
+      gameObject.SetActive(false);
     }
     EnableListeners();
   }
 
   void EnableListeners() {
-    EventManager.StartListening<MoveRight>(MoveRight);
-    EventManager.StartListening<MoveLeft>(MoveLeft);
-    EventManager.StartListening<MoveDown>(MoveDown);
-    EventManager.StartListening<Rotate>(Rotate);
+    EventManager.StartListening<MoveRightEvent>(OnMoveRight);
+    EventManager.StartListening<MoveLeftEvent>(OnMoveLeft);
+    EventManager.StartListening<MoveDownEvent>(OnMoveDown);
+    EventManager.StartListening<RotateEvent>(OnRotate);
   }
 
   void DisableListeners() {
-    EventManager.StopListening<MoveRight>(MoveRight);
-    EventManager.StopListening<MoveLeft>(MoveLeft);
-    EventManager.StopListening<MoveDown>(MoveDown);
-    EventManager.StopListening<Rotate>(Rotate);
+    EventManager.StopListening<MoveRightEvent>(OnMoveRight);
+    EventManager.StopListening<MoveLeftEvent>(OnMoveLeft);
+    EventManager.StopListening<MoveDownEvent>(OnMoveDown);
+    EventManager.StopListening<RotateEvent>(OnRotate);
   }
 
   // ACTIONS
-  private void MoveLeft() {
-    Move(new Vector3(-Config.PieceMovementsSpeed, 0, 0));
-  }
-
-  private void MoveRight() {
+  private void OnMoveRight(MoveRightEvent moveRightEvent) {
     Move(new Vector3(Config.PieceMovementsSpeed, 0, 0));
   }
 
-  private void MoveDown() {
+  private void OnMoveLeft(MoveLeftEvent moveLeftEvent) {
+    Move(new Vector3(-Config.PieceMovementsSpeed, 0, 0));
+  }
+
+  private void OnMoveDown(MoveDownEvent moveDownEvent) {
     Move(new Vector3(0, -Config.PieceMovementsSpeed, 0));
   }
  
-  private void Rotate() {
+  private void OnRotate(RotateEvent rotateEvent) {
     RotateCubes(-Config.PieceRotationAngle);
     if (IsEmptyPiecePosition() == PositionStates.Out)
       RotateCubes(Config.PieceRotationAngle);
@@ -89,8 +89,7 @@ public class Piece : MonoBehaviour {
 
   private void DisablePiece() {
     DisableListeners();
-    EventManager.TriggerEvent(new FillBoardWithPiece());
-    EventManager.TriggerEvent(new SpawnPiece());
+    EventManager.TriggerEvent(new PieceHitEvent(gameObject));
   }
    
 }

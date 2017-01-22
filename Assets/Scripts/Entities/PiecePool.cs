@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PiecePooler : MonoBehaviour {
+public class PiecePool : MonoBehaviour {
   
   // VARIABLES
   private List<GameObject> pooledPieces = new List<GameObject>();
