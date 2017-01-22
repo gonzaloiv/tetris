@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class GlobalConstants {
+public class Config {
 
   // BOARD
   public const int BoardWidth = 10;

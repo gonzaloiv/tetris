@@ -31,7 +31,7 @@ public class PieceFactory : MonoBehaviour {
 
   // PROPERTIES
   private static int RandomPieceIndex {
-    get { return Random.Range(0, GlobalConstants.PieceTypeAmount); }
+    get { return Random.Range(0, Config.PieceTypeAmount); }
   }
 
   private static Color RandomColor { 
@@ -41,6 +41,7 @@ public class PieceFactory : MonoBehaviour {
   // MONO BEHAVIOUR
   void Awake() {
     piecePool = new GameObject("GamePieces");
+    piecePool.transform.SetParent(transform);
   }
 
   // PUBLIC BEHAVIOUR
@@ -49,9 +50,8 @@ public class PieceFactory : MonoBehaviour {
   }
 
   public GameObject CreatePiece(int index) {
-    GameObject piece = Instantiate(piecePrefab) as GameObject;
+    GameObject piece = Instantiate(piecePrefab, piecePool.transform) as GameObject;
     piece.name = "Piece" + index;
-    piece.transform.SetParent(piecePool.transform);
     piece = FormPiece(piece, index);
     piece = ColorPiece(piece);
 
@@ -69,7 +69,7 @@ public class PieceFactory : MonoBehaviour {
         }
       }
     }
-    piece.transform.position = GlobalConstants.SpawningPosition;
+    piece.transform.position = Config.SpawningPosition;
     return piece;
   }
 

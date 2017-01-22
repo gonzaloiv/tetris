@@ -7,7 +7,7 @@ A Tetris clone using Unity3D.
 
 ## Usage
 
-Drag the game prefab into the Unity scene and play.
+Open the Game scene and play.
 
 ## To do
 
@@ -15,6 +15,7 @@ Drag the game prefab into the Unity scene and play.
 * Opening and closing scenes.
 * Mobile controls.
 * Multiplayer.
+* Game rules improvement.
 
 ## License
 

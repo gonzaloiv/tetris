@@ -7,45 +7,45 @@ public class Piece : MonoBehaviour {
   // MONO BEHAVIOUR
   void Start() {
     if (IsEmptyPiecePosition() != PositionStates.Empty) {
-      EventManager.TriggerEvent("EndGame");
+      EventManager.TriggerEvent(new EndGame());
       Destroy(gameObject);
     }
     EnableListeners();
   }
 
   void EnableListeners() {
-    EventManager.StartListening("MoveRight", MoveRight);
-    EventManager.StartListening("MoveLeft", MoveLeft);
-    EventManager.StartListening("MoveDown", MoveDown);
-    EventManager.StartListening("Rotate", Rotate);
+    EventManager.StartListening<MoveRight>(MoveRight);
+    EventManager.StartListening<MoveLeft>(MoveLeft);
+    EventManager.StartListening<MoveDown>(MoveDown);
+    EventManager.StartListening<Rotate>(Rotate);
   }
 
   void DisableListeners() {
-    EventManager.StopListening("MoveRight", MoveRight);
-    EventManager.StopListening("MoveLeft", MoveLeft);
-    EventManager.StopListening("MoveDown", MoveDown);
-    EventManager.StopListening("Rotate", Rotate);
+    EventManager.StopListening<MoveRight>(MoveRight);
+    EventManager.StopListening<MoveLeft>(MoveLeft);
+    EventManager.StopListening<MoveDown>(MoveDown);
+    EventManager.StopListening<Rotate>(Rotate);
   }
 
   // ACTIONS
   private void MoveLeft() {
-    Move(new Vector3(-GlobalConstants.PieceMovementsSpeed, 0, 0));
+    Move(new Vector3(-Config.PieceMovementsSpeed, 0, 0));
   }
 
   private void MoveRight() {
-    Move(new Vector3(GlobalConstants.PieceMovementsSpeed, 0, 0));
+    Move(new Vector3(Config.PieceMovementsSpeed, 0, 0));
   }
 
   private void MoveDown() {
-    Move(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
+    Move(new Vector3(0, -Config.PieceMovementsSpeed, 0));
   }
  
   private void Rotate() {
-    RotateCubes(-GlobalConstants.PieceRotationAngle);
+    RotateCubes(-Config.PieceRotationAngle);
     if (IsEmptyPiecePosition() == PositionStates.Out)
-      RotateCubes(GlobalConstants.PieceRotationAngle);
+      RotateCubes(Config.PieceRotationAngle);
     if (IsEmptyPiecePosition() == PositionStates.Full) {
-      RotateCubes(GlobalConstants.PieceRotationAngle);
+      RotateCubes(Config.PieceRotationAngle);
       DisablePiece(); 
     }
   }
@@ -80,7 +80,7 @@ public class Piece : MonoBehaviour {
   }
 
   private bool IsInsideBoard(Vector3 position) {
-    return position.x >= 0 && position.x <= GlobalConstants.BoardWidth - 1;
+    return position.x >= 0 && position.x <= Config.BoardWidth - 1;
   }
 
   private bool IsEmptyPosition(Vector3 position) {  
@@ -89,8 +89,8 @@ public class Piece : MonoBehaviour {
 
   private void DisablePiece() {
     DisableListeners();
-    EventManager.TriggerEvent("FillBoardWithPiece");
-    EventManager.TriggerEvent("SpawnPiece");
+    EventManager.TriggerEvent(new FillBoardWithPiece());
+    EventManager.TriggerEvent(new SpawnPiece());
   }
    
 }

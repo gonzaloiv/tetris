@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class EndGameState : GameState {
+public class EndGameState : State {
 
   // PREFABS
   [SerializeField] private GameObject restartScreenPrefab;
@@ -11,7 +11,7 @@ public class EndGameState : GameState {
 
   // GAME STATE BEHAVIOUR
   public override void Enter() {
-    restartScreen = Instantiate(restartScreenPrefab) as GameObject;
+    restartScreen = Instantiate(restartScreenPrefab, transform) as GameObject;
   }
 
   public override void Exit() {

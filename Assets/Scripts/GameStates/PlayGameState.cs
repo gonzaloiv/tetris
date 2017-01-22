@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayGameState : GameState {
+public class PlayGameState : State {
 
   // PREFABS
   [SerializeField] private GameObject boardPrefab;
@@ -12,8 +12,8 @@ public class PlayGameState : GameState {
   private GameObject activePiece;
 
   // MONO BEHAVIOUR
-  public override void Initialize() {
-    board = Instantiate(boardPrefab).GetComponent<Board>();
+  void Awake() {
+    board = Instantiate(boardPrefab, transform).GetComponent<Board>();
     pieceFactory = GetComponent<PieceFactory>();
   }
 
@@ -32,13 +32,13 @@ public class PlayGameState : GameState {
   }
 
   protected override void AddListeners() {
-    EventManager.StartListening("SpawnPiece", SpawnPiece);
-    EventManager.StartListening("FillBoardWithPiece", FillBoardWithPiece);
+    EventManager.StartListening<SpawnPiece>(SpawnPiece);
+    EventManager.StartListening<FillBoardWithPiece>(FillBoardWithPiece);
   }
 
   protected override void RemoveListeners() {
-    EventManager.StopListening("SpawnPiece", SpawnPiece);
-    EventManager.StopListening("FillBoardWithPiece", FillBoardWithPiece);
+    EventManager.StopListening<SpawnPiece>(SpawnPiece);
+    EventManager.StopListening<FillBoardWithPiece>(FillBoardWithPiece);
   }
 
   // ACTIONS
@@ -53,8 +53,8 @@ public class PlayGameState : GameState {
   // PRIVATE
   private IEnumerator SimulateGravity() {
     while (true) {
-      EventManager.TriggerEvent("MoveDown");
-      yield return new WaitForSeconds(GlobalConstants.GravitySpeed);
+      EventManager.TriggerEvent(new MoveDown());
+      yield return new WaitForSeconds(Config.GravitySpeed);
     }
   }
 

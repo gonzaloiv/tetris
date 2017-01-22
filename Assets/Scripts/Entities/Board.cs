@@ -24,7 +24,7 @@ public class Board : MonoBehaviour {
   }
 
   public void UpdateGrid() {
-    for (int row = 0; row < GlobalConstants.BoardHeight; row++) {
+    for (int row = 0; row < Config.BoardHeight; row++) {
       if (IsRowFull(row)) {
         ResetRow(row);
         MoveHigherCubesDown(row);
@@ -34,14 +34,14 @@ public class Board : MonoBehaviour {
   }
 
   public void ResetGrid() { 
-    for (int row = 0; row < GlobalConstants.BoardHeight; row++) { 
+    for (int row = 0; row < Config.BoardHeight; row++) { 
       ResetRow(row); 
     }
   }
  
   // PRIVATE BEHAVIOUR
   private bool IsRowFull(int row) {
-    for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
+    for (int col = 0; col < Config.BoardWidth; col++) {
       if (boardGrid[col, row] == null) {
         return false;
       }
@@ -50,7 +50,7 @@ public class Board : MonoBehaviour {
   }
 
   private void ResetRow(int row) {
-    for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
+    for (int col = 0; col < Config.BoardWidth; col++) {
       if (boardGrid[col, row] != null) {
         Destroy(boardGrid[col, row].gameObject);
         boardGrid[col, row] = null;
@@ -59,10 +59,10 @@ public class Board : MonoBehaviour {
   }
 
   private void MoveHigherCubesDown(int fullRow) {
-    for (int row = fullRow + 1; row < GlobalConstants.BoardHeight; row++) {
-      for (int col = 0; col < GlobalConstants.BoardWidth; col++) {
+    for (int row = fullRow + 1; row < Config.BoardHeight; row++) {
+      for (int col = 0; col < Config.BoardWidth; col++) {
         if (boardGrid[col, row] != null) {
-          boardGrid[col, row].Translate(new Vector3(0, -GlobalConstants.PieceMovementsSpeed, 0));
+          boardGrid[col, row].Translate(new Vector3(0, -Config.PieceMovementsSpeed, 0));
           boardGrid[col, row - 1] = boardGrid[col, row];
           boardGrid[col, row] = null;        
         }

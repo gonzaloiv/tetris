@@ -31,8 +31,8 @@ public class PiecePooler : MonoBehaviour {
 
   // PRIVATE BEHAVIOUR
   private void InitializePool() {
-    for (int i = 0; i < GlobalConstants.InitialPooledPiecesAmount; i++) {
-      for (int j = 0; j < GlobalConstants.PieceTypeAmount; j++) {
+    for (int i = 0; i < Config.InitialPooledPiecesAmount; i++) {
+      for (int j = 0; j < Config.PieceTypeAmount; j++) {
         GameObject piece = pieceFactory.CreatePiece(j) as GameObject;
         piece.transform.SetParent(piecePool.transform);
         pooledPieces.Add(piece);
@@ -46,7 +46,7 @@ public class PiecePooler : MonoBehaviour {
 
     while (pooledPiecesIndexes.Count < pooledPieces.Count) {
       do {
-        randomIndex = Random.Range(0, GlobalConstants.PieceTypeAmount);
+        randomIndex = Random.Range(0, Config.PieceTypeAmount);
       } while (pooledPiecesIndexes.Contains(randomIndex));
 
       if (!pooledPieces[randomIndex].activeInHierarchy)
