@@ -6,19 +6,15 @@ public class PlayGameState : State {
   // PREFABS
   [SerializeField] private GameObject boardPrefab;
 
-  // VARIABLES
-  private PieceFactory pieceFactory;
-
   // MONO BEHAVIOUR
   void Awake() {
     Instantiate(boardPrefab, transform).GetComponent<BoardController>();
-    pieceFactory = GetComponent<PieceFactory>();
   }
 
   public override void Enter() {
     base.Enter();
    
-    pieceFactory.CreatePiece();
+    PieceSpawner.Instance.NextPiece();
     StartCoroutine(SimulateGravity());
   }
 
@@ -38,7 +34,7 @@ public class PlayGameState : State {
 
   // ACTIONS
   void NextPiece(PieceHitEvent pieceHitEvent) {     
-    pieceFactory.CreatePiece();
+    PieceSpawner.Instance.NextPiece();
   }
  
   // PRIVATE
@@ -50,7 +46,7 @@ public class PlayGameState : State {
   }
 
   private void DisableGamePieces() {
-    GameObject pieces = GameObject.Find("GamePieces");
+    GameObject pieces = GameObject.Find("PiecePool");
       foreach(GameObject piece in pieces.transform)
         piece.SetActive(false);
   }

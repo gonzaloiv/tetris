@@ -13,7 +13,8 @@ public class Config {
 
   // PIECES
   public static int PieceTypeAmount = 7;
-  public static int InitialPooledPiecesAmount = 3;
+  public static int InitialPooledPiecesAmount = 14;
+  public static int InitialPooledCubesAmount = 32;
 
   // STYLES
   public static Color RandomColor { 

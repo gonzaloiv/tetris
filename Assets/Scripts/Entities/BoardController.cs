@@ -12,21 +12,21 @@ public class BoardController : MonoBehaviour {
   }
 
   void OnEnable() {
-    EventManager.StartListening<PieceHitEvent>(FillBoardWithPiece);
-    EventManager.StartListening<EndGameEvent>(ResetBoard);
+    EventManager.StartListening<PieceHitEvent>(OnPieceHitEvent);
+    EventManager.StartListening<EndGameEvent>(OnEndGameEvent);
   }
 
   void OnDisable() {
-    EventManager.StopListening<PieceHitEvent>(FillBoardWithPiece);
-    EventManager.StartListening<EndGameEvent>(ResetBoard);
+    EventManager.StopListening<PieceHitEvent>(OnPieceHitEvent);
+    EventManager.StartListening<EndGameEvent>(OnEndGameEvent);
   }
 
   // ACTIONS
-  private void FillBoardWithPiece(PieceHitEvent pieceHitEvent) {
+  private void OnPieceHitEvent(PieceHitEvent pieceHitEvent) {
     board.AddPiece(pieceHitEvent.piece);
   }
   
-  private void ResetBoard(EndGameEvent endGameEvent) { 
+  private void OnEndGameEvent(EndGameEvent endGameEvent) { 
     board.Reset();
   }
 

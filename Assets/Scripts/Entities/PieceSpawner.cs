@@ -1,11 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PieceFactory : MonoBehaviour {
-
-  // PREFABS
-  [SerializeField] private GameObject piecePrefab;
-  [SerializeField] private GameObject cubePrefab;
+public class PieceSpawner : Singleton<PieceSpawner> {
 
   // CONSTANTS
   int[][][] pieces = new int[][][] {
@@ -25,35 +21,30 @@ public class PieceFactory : MonoBehaviour {
     new int[][] { new int[] {1, 1, 1, 0}, new int[] {0, 1, 0, 0} }
   };
 
+  // PREFABS
+  [SerializeField] private GameObject piecePrefab;
+  [SerializeField] private GameObject cubePrefab;
+
   // VARIABLES
-  private GameObject piecePool;
   private GameObject cube;
-
-  // PROPERTIES
-  private static int RandomPieceIndex {
-    get { return Random.Range(0, Config.PieceTypeAmount); }
-  }
-
-  private static Color RandomColor { 
-    get { return new Color(Random.value, Random.value, Random.value, 1.0f); }
-  }
 
   // MONO BEHAVIOUR
   void Awake() {
-    piecePool = new GameObject("GamePieces");
-    piecePool.transform.SetParent(transform);
+    Pooler.CreateGameObjectPool(piecePrefab, Config.InitialPooledPiecesAmount, transform);
+    Pooler.CreateGameObjectPool(cubePrefab, Config.InitialPooledCubesAmount, transform);
   }
 
   // PUBLIC BEHAVIOUR
-  public GameObject CreatePiece() {
-    return CreatePiece(RandomPieceIndex);
+  public GameObject NextPiece() {
+    return NextPiece(RandomPieceIndex);
   }
 
-  public GameObject CreatePiece(int index) {
-    GameObject piece = Instantiate(piecePrefab, piecePool.transform) as GameObject;
-    piece.name = "Piece" + index;
+  public GameObject NextPiece(int index) {
+    GameObject piece =  Pooler.GetPooledGameObject("PiecePool");
+    piece.transform.position = Config.SpawningPosition;
     piece = FormPiece(piece, index);
     piece = ColorPiece(piece);
+    piece.SetActive(true);
 
     return piece;
   }
@@ -63,22 +54,30 @@ public class PieceFactory : MonoBehaviour {
     for (int i = 0; i < pieces[index].Length; i++) {
       for (int j = 0; j < pieces[index][i].Length; j++) {
         if (pieces[index][i][j] == 1) { 
-          cube = GameObject.Instantiate(cubePrefab);
-          cube.transform.Translate(j, i, 0);
+          cube = Pooler.GetPooledGameObject("CubePool");
+          cube.transform.position = new Vector3(j, i, 0);
+          cube.SetActive(true);
           cube.transform.parent = piece.transform;
         }
       }
     }
-    piece.transform.position = Config.SpawningPosition;
     return piece;
   }
 
   private GameObject ColorPiece(GameObject piece) {
     Color randomColor = RandomColor;
-    foreach (Transform trans in piece.transform) {
+    foreach (Transform trans in piece.transform)
       trans.GetComponent<Renderer>().material.color = randomColor;
-    }
+
     return piece;
+  }
+
+  private static int RandomPieceIndex {
+    get { return Random.Range(0, Config.PieceTypeAmount); }
+  }
+
+  private static Color RandomColor { 
+    get { return new Color(Random.value, Random.value, Random.value, 1.0f); }
   }
 
 }
