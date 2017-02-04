@@ -23,7 +23,7 @@ public class Config {
 
   // PHYSICS
   public static int PieceMovementsSpeed = 1;
-  public static float GravitySpeed = .01f;
+  public static float GravitySpeed = .4f;
   public static int PieceRotationAngle = 90;
 
 }
